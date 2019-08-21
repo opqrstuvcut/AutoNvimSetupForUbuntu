@@ -1,3 +1,5 @@
+apt install software-properties-common
+add-apt-repository ppa:neovim-ppa/unstable
 apt update -y
 apt install neovim -y
 echo alias vim=nvim >> ~/.bashrc
@@ -14,4 +16,4 @@ else
     pip install pyneovim
 fi
 
-curl -sL install-node.now.sh/lts | bash
+curl -y -sL install-node.now.sh/lts | bash
