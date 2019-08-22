@@ -1,5 +1,5 @@
 # AutoNvimSetupForUbuntu
-A auto setup tool of nvim + dein + cocvim for ubuntu.
+An auto setup tool of nvim + dein + cocvim for ubuntu.
 ## Usage
 
 ```
