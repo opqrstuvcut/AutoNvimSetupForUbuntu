@@ -10,22 +10,22 @@ if &compatible
 endif
 
 " Required:
-set runtimepath+=HOMEPATH/.cache/dein/repos/github.com/Shougo/dein.vim
+set runtimepath+=/root/.cache/dein/repos/github.com/Shougo/dein.vim
 
 " Required:
-if dein#load_state('HOMEPATH/.cache/dein')
-    call dein#begin('HOMEPATH/.cache/dein')
+if dein#load_state('/root/.cache/dein')
+    call dein#begin('/root/.cache/dein')
 
     " Let dein manage dein
     " Required:
-    call dein#add('HOMEPATH/.cache/dein/repos/github.com/Shougo/dein.vim')
+    call dein#add('/root/.cache/dein/repos/github.com/Shougo/dein.vim')
 
     call dein#add( 'nanotech/jellybeans.vim')
     call dein#add( 'Shougo/unite.vim')
     call dein#add( 'thinca/vim-quickrun')  
     call dein#add( 'scrooloose/nerdtree')
     " call dein#add( 'scrooloose/syntastic')
-    call dein#add( 'w0rp/ale')
+    " call dein#add( 'w0rp/ale')
     call dein#add( 'opqrstuvcut/vim-pydocstring')
     " call dein#add( 'cjrh/vim-conda')
     call dein#add('Shougo/neocomplete.vim') " vimの補完機能
@@ -43,7 +43,8 @@ if dein#load_state('HOMEPATH/.cache/dein')
     " call dein#add('delphinus/lightline-delphinus')
     call dein#add("thinca/vim-qfreplace")
     call dein#add('neoclide/coc.nvim', {'merge':0, 'build': './install.sh nightly'})
-    "call dein#add('neoclide/coc.nvim', {'merge':0, 'build': 'yarn install --frozen-lockfile'})
+    call dein#add("Lokaltog/vim-easymotion")
+    call dein#add("Shougo/denite.nvim")
 
     call dein#end()
     call dein#save_state()
@@ -60,9 +61,9 @@ hi clear CursorLine
 
 " 目印行を常に表示する
 if exists('&signcolumn')  " Vim 7.4.2201
-  set signcolumn=yes
+    set signcolumn=yes
 else
-  let g:gitgutter_sign_column_always = 1
+    let g:gitgutter_sign_column_always = 1
 endif
 
 syntax on
@@ -146,17 +147,18 @@ autocmd FileType python setlocal completeopt-=preview
 
 "nerdtree short cut
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
-let g:ale_lint_on_text_changed = 1
-let b:ale_linters = {'python': ['flake8']}
-let g:ale_fixers = {
-      \ 'python': ['autopep8'],
-      \ 'markdown': [
-      \   {buffer, lines -> {'command': 'textlint -c ~/.config/textlintrc -o /dev/null --fix --no-color --quiet %t', 'read_temporary_file': 1}}
-      \   ],
-      \ }
-let g:ale_fix_on_save = 1
-let g:ale_sign_error = '☓'
-let g:ale_sign_warning = '▲'
+
+" let g:ale_lint_on_text_changed = 1
+" let b:ale_linters = {'python': ['flake8']}
+" let g:ale_fixers = {
+"       \ 'python': ['autopep8'],
+"       \ 'markdown': [
+"       \   {buffer, lines -> {'command': 'textlint -c ~/.config/textlintrc -o /dev/null --fix --no-color --quiet %t', 'read_temporary_file': 1}}
+"       \   ],
+"       \ }
+" let g:ale_fix_on_save = 1
+" let g:ale_sign_error = '☓'
+" let g:ale_sign_warning = '▲'
 
 set encoding=utf8
 set fenc=utf-8
@@ -170,8 +172,8 @@ let g:airline_theme="molokai"
 "let g:airline#extensions#tabline#buffer_idx_mode = 1
 "let g:airline#extensions#tabline#enabled = 1
 "
-let g:ale_python_flake8_options="--max-line-length 120"
-let g:ale_python_autopep8_options="--max-line-length 120"
+" let g:ale_python_flake8_options="--max-line-length 120"
+" let g:ale_python_autopep8_options="--max-line-length 120"
 
 map p <Plug>(miniyank-autoput)
 map P <Plug>(miniyank-autoPut)
@@ -199,14 +201,14 @@ set signcolumn=yes
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 " Use <c-space> to trigger completion.
@@ -221,7 +223,7 @@ nmap <silent> [c <Plug>(coc-diagnostic-prev)
 nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
 " Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gd :vsp<CR><Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
@@ -230,11 +232,11 @@ nmap <silent> gr <Plug>(coc-references)
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
+    if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+    else
+        call CocAction('doHover')
+    endif
 endfunction
 
 " Highlight symbol under cursor on CursorHold
@@ -248,11 +250,11 @@ xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
 
 augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+    autocmd!
+    " Setup formatexpr specified filetype(s).
+    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+    " Update signature help on jump placeholder
+    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
 " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
@@ -299,5 +301,63 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 " ファイルを開いたときに前回のカーソル位置で開く
 augroup KeepLastPosition
-  au BufRead * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
+    au BufRead * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
 augroup END
+
+" =======================================
+" Boost your productivity with EasyMotion
+" =======================================
+" Disable default mappings
+" If you are true vimmer, you should explicitly map keys by yourself.
+" Do not rely on default bidings.
+let g:EasyMotion_do_mapping = 0
+
+" Or map prefix key at least(Default: <Leader><Leader>)
+" map <Leader> <Plug>(easymotion-prefix)
+
+" =======================================
+" Find Motions
+" =======================================
+" Jump to anywhere you want by just `4` or `3` key strokes without thinking!
+" `s{char}{char}{target}`
+nmap s <Plug>(easymotion-s2)
+xmap s <Plug>(easymotion-s2)
+omap z <Plug>(easymotion-s2)
+" Of course, you can map to any key you want such as `<Space>`
+" map <Space>(easymotion-s2)
+
+" Turn on case sensitive feature
+let g:EasyMotion_smartcase = 1
+
+" =======================================
+" Line Motions
+" =======================================
+" `JK` Motions: Extend line motions
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+" keep cursor column with `JK` motions
+let g:EasyMotion_startofline = 0
+
+" =======================================
+" General Configuration
+" =======================================
+let g:EasyMotion_keys = ';HKLYUIOPNM,QWERTASDGZXCVBJF'
+" Show target key with upper case to improve readability
+let g:EasyMotion_use_upper = 1
+" Jump to first match with enter & space
+let g:EasyMotion_enter_jump_first = 1
+let g:EasyMotion_space_jump_first = 1
+
+
+" =======================================
+" Search Motions
+" =======================================
+" Extend search motions with vital-over command line interface
+" Incremental highlight of all the matches
+" Now, you don't need to repetitively press `n` or `N` with EasyMotion feature
+" `<Tab>` & `<S-Tab>` to scroll up/down a page with next match
+" :h easymotion-command-line
+nmap g/ <Plug>(easymotion-sn)
+xmap g/ <Plug>(easymotion-sn)
+omap g/ <Plug>(easymotion-tn)
+
