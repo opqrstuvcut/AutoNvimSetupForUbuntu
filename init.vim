@@ -21,15 +21,10 @@ if dein#load_state('/root/.cache/dein')
     call dein#add('/root/.cache/dein/repos/github.com/Shougo/dein.vim')
 
     call dein#add( 'nanotech/jellybeans.vim')
-    call dein#add( 'Shougo/unite.vim')
     call dein#add( 'thinca/vim-quickrun')  
     call dein#add( 'scrooloose/nerdtree')
-    " call dein#add( 'scrooloose/syntastic')
-    " call dein#add( 'w0rp/ale')
     call dein#add( 'opqrstuvcut/vim-pydocstring')
-    " call dein#add( 'cjrh/vim-conda')
-    call dein#add('Shougo/neocomplete.vim') " vimの補完機能
-    " call dein#add('Shougo/vimproc', {'build': 'make'})
+    call dein#add('Shougo/vimproc', {'build': 'make'})
     call dein#add('tpope/vim-fugitive')
     call dein#add("airblade/vim-gitgutter")
     call dein#add("kana/vim-operator-user")
@@ -38,41 +33,36 @@ if dein#load_state('/root/.cache/dein')
     call dein#add("vim-airline/vim-airline")
     call dein#add("vim-airline/vim-airline-themes")
     call dein#add("bfredl/nvim-miniyank")
-    " call dein#add('itchyny/lightline.vim')
-    " call dein#add('maximbaz/lightline-ale')
-    " call dein#add('delphinus/lightline-delphinus')
     call dein#add("thinca/vim-qfreplace")
     call dein#add('neoclide/coc.nvim', {'merge':0, 'build': './install.sh nightly'})
     call dein#add("Lokaltog/vim-easymotion")
     call dein#add("Shougo/denite.nvim")
+    call dein#add("mbbill/undotree")
 
     call dein#end()
     call dein#save_state()
 endif
 
 filetype plugin indent on
-syntax enable
+syntax on
 
 set number
 set laststatus=2
 set shiftwidth=4
 set cursorline
 hi clear CursorLine
-
-" 目印行を常に表示する
-if exists('&signcolumn')  " Vim 7.4.2201
-    set signcolumn=yes
-else
-    let g:gitgutter_sign_column_always = 1
-endif
-
-syntax on
+inoremap <silent> jj <ESC>
+nnoremap Y y$
+set display=lastline
+set t_Co=256
+set hlsearch
+set encoding=utf8
+set fenc=utf-8
+colorscheme jellybeans 
+autocmd FileType python setlocal completeopt-=preview
+autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 expandtab
 
 let g:hi_insert = 'highlight StatusLine guifg=darkblue guibg=darkyellow gui=none ctermfg=blue ctermbg=yellow cterm=none'
-
-map <silent>sa <Plug>(operator-surround-append)
-map <silent>sd <Plug>(operator-surround-delete)
-map <silent>sr <Plug>(operator-surround-replace)
 
 if has('syntax')
     augroup InsertHook
@@ -93,35 +83,40 @@ function! s:StatusLine(mode)
     endif
 endfunction
 
-"function! s:GetHighlight(hi)
-"    redir => hl
-"    exec 'highlight '.a:hi
-"    redir END let hl = substitute(hl,'[\r\n]', '', 'g')
-"    let hl = substitute(hl,'xxx', '', '')
-"    return hl
-"endfunction
-
-" au FileType qf nnoremap <silent><buffer>q :quit<CR>
-" let g:quickrun_no_default_key_mappings = 1
-" nnoremap qr :cclose<CR>:write<CR>:QuickRun -mode n<CR>
-" xnoremap qr :<C-U>cclose<CR>:write<CR>gv:QuickRun -mode v<CR>
-" nnoremap qe :<C-u>bw! \[quickrun\ output\]<CR>
-" let g:quickrun_config = get(g:, 'quickrun_config', {})
-" :set splitright
-"let g:quickrun_config={'_': {'split': 'vertical',  'runner'    : 'vimproc',  'outputter/error/error'   : 'quickfix',  'outputter/buffer/close_on_empty' : 1,  'outputter/error/success' : 'buffer', 'runner/vimproc/updatetime' : 60}}
-"let g:quickrun_config={'_': {'split': 'vertical',  'outputter/error/error'   : 'quickfix',  'outputter/buffer/close_on_empty' : 1,  'outputter/error/success' : 'buffer'}}
 set nocompatible
 set whichwrap=b,s,h,l,<,>,[,]
 set backspace=indent,eol,start
 set clipboard+=unnamedplus
 
-inoremap <silent> jj <ESC>
-nnoremap Y y$
-set display=lastline
-set t_Co=256
-colorscheme jellybeans 
-set hlsearch
+set hidden
+set nobackup
+set nowritebackup
+set cmdheight=2
+set updatetime=300
+set shortmess+=c
+" always show signcolumns
+set signcolumn=yes
 
+" =======================================
+" operator suuround
+" =======================================
+" 目印行を常に表示する
+if exists('&signcolumn')  " Vim 7.4.2201
+    set signcolumn=yes
+else
+    let g:gitgutter_sign_column_always = 1
+endif
+
+" =======================================
+" operator suuround
+" =======================================
+map <silent>sa <Plug>(operator-surround-append)
+map <silent>sd <Plug>(operator-surround-delete)
+map <silent>sr <Plug>(operator-surround-replace)
+
+" =======================================
+" QuickFix
+" =======================================
 autocmd QuickFixCmdPost *grep* cwindow
 nnoremap [q :cprevious<CR>   " prev
 nnoremap ]q :cnext<CR>       " before
@@ -130,74 +125,26 @@ nnoremap ]Q :<C-u>clast<CR>  " bottom
 nnoremap <C-h> :vsp<CR> :exe("tjump ".expand('<cword>'))<CR>
 nnoremap <C-k> :split<CR> :exe("tjump ".expand('<cword>'))<CR>
 
-" let g:jedi#auto_initialization = 1
-" let g:jedi#auto_vim_configuration = 1
-" 
-" let g:jedi#completions_command = "<C-Space>"    
-" let g:jedi#goto_assignments_command = "<C-g>"   
-" let g:jedi#goto_definitions_command = "<C-f>"  
-" let g:jedi#documentation_command = "<C-k>"    
-" let g:jedi#rename_command = "<Leader>j"
-" let g:jedi#usages_command = "<Leader>n"
-" let g:jedi#popup_on_dot = 0
-" let g:jedi#use_splits_not_buffers = "right"
-
-
-autocmd FileType python setlocal completeopt-=preview
-
-"nerdtree short cut
+" =======================================
+" Nerdtree
+" =======================================
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
 
-" let g:ale_lint_on_text_changed = 1
-" let b:ale_linters = {'python': ['flake8']}
-" let g:ale_fixers = {
-"       \ 'python': ['autopep8'],
-"       \ 'markdown': [
-"       \   {buffer, lines -> {'command': 'textlint -c ~/.config/textlintrc -o /dev/null --fix --no-color --quiet %t', 'read_temporary_file': 1}}
-"       \   ],
-"       \ }
-" let g:ale_fix_on_save = 1
-" let g:ale_sign_error = '☓'
-" let g:ale_sign_warning = '▲'
-
-set encoding=utf8
-set fenc=utf-8
-
-set laststatus=2
-
-autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 expandtab
-
+" =======================================
+" Airline
+" =======================================
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline_theme="molokai"
-"let g:airline#extensions#tabline#buffer_idx_mode = 1
-"let g:airline#extensions#tabline#enabled = 1
-"
-" let g:ale_python_flake8_options="--max-line-length 120"
-" let g:ale_python_autopep8_options="--max-line-length 120"
 
+" =======================================
+" miniyank
+" =======================================
 map p <Plug>(miniyank-autoput)
 map P <Plug>(miniyank-autoPut)
 
-
-" if hidden is not set, TextEdit might fail.
-set hidden
-
-" Some servers have issues with backup files, see #649
-set nobackup
-set nowritebackup
-
-" Better display for messages
-set cmdheight=2
-
-" Smaller updatetime for CursorHold & CursorHoldI
-set updatetime=300
-
-" don't give |ins-completion-menu| messages.
-set shortmess+=c
-
-" always show signcolumns
-set signcolumn=yes
-
+" =======================================
+" CocVim
+" =======================================
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 inoremap <silent><expr> <TAB>
@@ -305,59 +252,44 @@ augroup KeepLastPosition
 augroup END
 
 " =======================================
-" Boost your productivity with EasyMotion
+" EasyMotion
 " =======================================
-" Disable default mappings
-" If you are true vimmer, you should explicitly map keys by yourself.
-" Do not rely on default bidings.
 let g:EasyMotion_do_mapping = 0
-
-" Or map prefix key at least(Default: <Leader><Leader>)
-" map <Leader> <Plug>(easymotion-prefix)
-
-" =======================================
-" Find Motions
-" =======================================
-" Jump to anywhere you want by just `4` or `3` key strokes without thinking!
-" `s{char}{char}{target}`
 nmap s <Plug>(easymotion-s2)
 xmap s <Plug>(easymotion-s2)
 omap z <Plug>(easymotion-s2)
-" Of course, you can map to any key you want such as `<Space>`
-" map <Space>(easymotion-s2)
-
-" Turn on case sensitive feature
 let g:EasyMotion_smartcase = 1
-
-" =======================================
-" Line Motions
-" =======================================
-" `JK` Motions: Extend line motions
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
-" keep cursor column with `JK` motions
 let g:EasyMotion_startofline = 0
-
-" =======================================
-" General Configuration
-" =======================================
 let g:EasyMotion_keys = ';HKLYUIOPNM,QWERTASDGZXCVBJF'
-" Show target key with upper case to improve readability
 let g:EasyMotion_use_upper = 1
-" Jump to first match with enter & space
 let g:EasyMotion_enter_jump_first = 1
 let g:EasyMotion_space_jump_first = 1
 
-
-" =======================================
-" Search Motions
-" =======================================
-" Extend search motions with vital-over command line interface
-" Incremental highlight of all the matches
-" Now, you don't need to repetitively press `n` or `N` with EasyMotion feature
-" `<Tab>` & `<S-Tab>` to scroll up/down a page with next match
-" :h easymotion-command-line
 nmap g/ <Plug>(easymotion-sn)
 xmap g/ <Plug>(easymotion-sn)
 omap g/ <Plug>(easymotion-tn)
 
+" =======================================
+" 文字検索のヒット数の表示
+" =======================================
+nnoremap <expr> / _(":%s/<Cursor>/&/gn")
+
+function! s:move_cursor_pos_mapping(str, ...)
+    let left = get(a:, 1, "<Left>")
+    let lefts = join(map(split(matchstr(a:str, '.*<Cursor>\zs.*\ze'), '.\zs'), 'left'), "")
+    return substitute(a:str, '<Cursor>', '', '') . lefts
+endfunction
+
+function! _(str)
+    return s:move_cursor_pos_mapping(a:str, "\<Left>")
+endfunction
+
+" =======================================
+" undotree
+" =======================================
+if has("persistent_undo")
+    set undodir=$HOME."/.undodir"
+    set undofile
+endif
