@@ -1,3 +1,25 @@
+if has('python3')
+endif
+
+set tabstop=4
+set expandtab
+
+"dein Scripts-----------------------------
+if &compatible
+    set nocompatible               " Be iMproved
+endif
+
+" Required:
+set runtimepath+=HOMEPATH/.cache/dein/repos/github.com/Shougo/dein.vim
+
+" Required:
+if dein#load_state('HOMEPATH/.cache/dein')
+    call dein#begin('HOMEPATH/.cache/dein')
+
+    " Let dein manage dein
+    " Required:
+    call dein#add('HOMEPATH/.cache/dein/repos/github.com/Shougo/dein.vim')
+    
     call dein#add( 'nanotech/jellybeans.vim')
     call dein#add( 'thinca/vim-quickrun')  
     call dein#add( 'scrooloose/nerdtree')
