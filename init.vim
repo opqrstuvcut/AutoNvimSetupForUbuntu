@@ -1,25 +1,3 @@
-if has('python3')
-endif
-
-set tabstop=4
-set expandtab
-
-"dein Scripts-----------------------------
-if &compatible
-    set nocompatible               " Be iMproved
-endif
-
-" Required:
-set runtimepath+=/root/.cache/dein/repos/github.com/Shougo/dein.vim
-
-" Required:
-if dein#load_state('/root/.cache/dein')
-    call dein#begin('/root/.cache/dein')
-
-    " Let dein manage dein
-    " Required:
-    call dein#add('/root/.cache/dein/repos/github.com/Shougo/dein.vim')
-
     call dein#add( 'nanotech/jellybeans.vim')
     call dein#add( 'thinca/vim-quickrun')  
     call dein#add( 'scrooloose/nerdtree')
@@ -38,6 +16,8 @@ if dein#load_state('/root/.cache/dein')
     call dein#add("Lokaltog/vim-easymotion")
     call dein#add("Shougo/denite.nvim")
     call dein#add("mbbill/undotree")
+    call dein#add("simeji/winresizer")
+    call dein#add('alvan/vim-closetag')
 
     call dein#end()
     call dein#save_state()
@@ -293,3 +273,52 @@ if has("persistent_undo")
     set undodir=$HOME."/.undodir"
     set undofile
 endif
+
+" =======================================
+" winresizer
+" =======================================
+let g:winresizer_start_key = '<C-s>'
+
+" =======================================
+" closetag
+" =======================================
+" filenames like *.xml, *.html, *.xhtml, ...
+" These are the file extensions where this plugin is enabled.
+"
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml'
+
+" filenames like *.xml, *.xhtml, ...
+" This will make the list of non-closing tags self-closing in the specified files.
+"
+let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
+
+" filetypes like xml, html, xhtml, ...
+" These are the file types where this plugin is enabled.
+"
+let g:closetag_filetypes = 'html,xhtml,phtml'
+
+" filetypes like xml, xhtml, ...
+" This will make the list of non-closing tags self-closing in the specified files.
+"
+let g:closetag_xhtml_filetypes = 'xhtml,jsx'
+
+" integer value [0|1]
+" This will make the list of non-closing tags case-sensitive (e.g. `<Link>` will be closed while `<link>` won't.)
+"
+let g:closetag_emptyTags_caseSensitive = 1
+
+" dict
+" Disables auto-close if not in a "valid" region (based on filetype)
+"
+let g:closetag_regions = {
+    \ 'typescript.tsx': 'jsxRegion,tsxRegion',
+    \ 'javascript.jsx': 'jsxRegion',
+    \ }
+
+" Shortcut for closing tags, default is '>'
+"
+let g:closetag_shortcut = '>'
+
+" Add > at current position without closing the current tag, default is ''
+"
+let g:closetag_close_shortcut = '<leader>>'
