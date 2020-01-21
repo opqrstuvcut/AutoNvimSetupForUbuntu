@@ -40,6 +40,7 @@ if dein#load_state('HOMEPATH/.cache/dein')
     call dein#add("mbbill/undotree")
     call dein#add("simeji/winresizer")
     call dein#add('alvan/vim-closetag')
+    call dein#add('mechatroner/rainbow_csv')
 
     call dein#end()
     call dein#save_state()
@@ -344,3 +345,18 @@ let g:closetag_shortcut = '>'
 " Add > at current position without closing the current tag, default is ''
 "
 let g:closetag_close_shortcut = '<leader>>'
+
+" =======================================
+" CocList
+" =======================================
+" grep word under cursor
+command! -nargs=+ -complete=custom,s:GrepArgs Rg exe 'CocList grep '.<q-args>
+
+function! s:GrepArgs(...)
+  let list = ['-S', '-smartcase', '-i', '-ignorecase', '-w', '-word',
+        \ '-e', '-regex', '-u', '-skip-vcs-ignores', '-t', '-extension']
+  return join(list, "\n")
+endfunction
+
+" Keymapping for grep word under cursor with interactive mode
+nnoremap <silent> <Leader>cf :exe 'CocList -I --input='.expand('<cword>').' grep'<CR>
