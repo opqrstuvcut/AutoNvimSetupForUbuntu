@@ -41,6 +41,7 @@ if dein#load_state('HOMEPATH/.cache/dein')
     call dein#add("simeji/winresizer")
     call dein#add('alvan/vim-closetag')
     call dein#add('mechatroner/rainbow_csv')
+    call dein#add('dart-lang/dart-vim-plugin')
 
     call dein#end()
     call dein#save_state()
@@ -360,3 +361,9 @@ endfunction
 
 " Keymapping for grep word under cursor with interactive mode
 nnoremap <silent> <Leader>cf :exe 'CocList -I --input='.expand('<cword>').' grep'<CR>
+
+" =======================================
+" dart plugin
+" =======================================
+let g:dart_style_guide = 2
+let g:dart_format_on_save = 1
