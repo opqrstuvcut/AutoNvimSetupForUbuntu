@@ -42,6 +42,7 @@ if dein#load_state('HOMEPATH/.cache/dein')
     call dein#add('alvan/vim-closetag')
     call dein#add('mechatroner/rainbow_csv')
     call dein#add('dart-lang/dart-vim-plugin')
+    call dein#add("tpope/vim-surround")
 
     call dein#end()
     call dein#save_state()
