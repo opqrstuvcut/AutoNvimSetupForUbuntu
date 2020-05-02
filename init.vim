@@ -23,7 +23,6 @@ if dein#load_state('HOMEPATH/.cache/dein')
     call dein#add( 'nanotech/jellybeans.vim')
     call dein#add( 'thinca/vim-quickrun')  
     call dein#add( 'scrooloose/nerdtree')
-    call dein#add( 'opqrstuvcut/vim-pydocstring')
     call dein#add('Shougo/vimproc', {'build': 'make'})
     call dein#add('tpope/vim-fugitive')
     call dein#add("airblade/vim-gitgutter")
@@ -41,9 +40,8 @@ if dein#load_state('HOMEPATH/.cache/dein')
     call dein#add("simeji/winresizer")
     call dein#add('alvan/vim-closetag')
     call dein#add('mechatroner/rainbow_csv')
-    call dein#add('dart-lang/dart-vim-plugin')
     call dein#add("tpope/vim-surround")
-
+    call dein#add("pixelneo/vim-python-docstring")
     call dein#end()
     call dein#save_state()
 endif
@@ -294,10 +292,10 @@ endfunction
 " =======================================
 " undotree
 " =======================================
-if has("persistent_undo")
-    set undodir=$HOME."/.undodir"
-    set undofile
-endif
+" if has("persistent_undo")
+"     set undodir=$HOME"/.undodir"
+"     set undofile
+" endif
 
 " =======================================
 " winresizer
@@ -363,8 +361,26 @@ endfunction
 " Keymapping for grep word under cursor with interactive mode
 nnoremap <silent> <Leader>cf :exe 'CocList -I --input='.expand('<cword>').' grep'<CR>
 
+
 " =======================================
-" dart plugin
+" CocSnippets
 " =======================================
-let g:dart_style_guide = 2
-let g:dart_format_on_save = 1
+" Use <C-l> for trigger snippet expand.
+imap <C-l> <Plug>(coc-snippets-expand)
+
+" Use <C-j> for select text for visual placeholder of snippet.
+vmap <C-j> <Plug>(coc-snippets-select)
+
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-f>'
+
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-b>'
+
+" Use <C-j> for both expand and jump (make expand higher priority.)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+" =======================================
+" Vim-Python-Docstring
+" =======================================
+nnoremap <silent> <C-l> :Docstring<CR>
